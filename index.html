@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dead Pixel Tester - Free Online Screen Test for Monitor & Mobile</title>
+    <meta name="description" content="Free dead pixel tester for monitors, laptops, smartphones and tablets. Test your screen for dead, stuck or defective pixels with multiple color tests. Works on all devices.">
+    <meta name="keywords" content="dead pixel test, stuck pixel test, screen test, monitor test, display test, pixel checker, screen checker, LCD test, OLED test, mobile screen test">
+    <meta name="author" content="Dead Pixel Tester">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://deadpixeltester.github.io/">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="logo-512.png">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://deadpixeltester.github.io/">
+    <meta property="og:title" content="Dead Pixel Tester - Free Online Screen Test">
+    <meta property="og:description" content="Test your screen for dead or stuck pixels. Free tool for monitors, laptops, and mobile devices.">
+    <meta property="og:image" content="dead-pixel-tester-large.png">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://deadpixeltester.github.io/">
+    <meta property="twitter:title" content="Dead Pixel Tester - Free Online Screen Test">
+    <meta property="twitter:description" content="Test your screen for dead or stuck pixels. Free tool for monitors, laptops, and mobile devices.">
+    <meta property="twitter:image" content="dead-pixel-tester-large.png">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Dead Pixel Tester",
+      "description": "Free online tool to test screens for dead or stuck pixels",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden; /* Yatay kaydırmayı engelle */
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        /* Logo Stili */
+        .main-logo {
+            max-width: 100%;
+            height: auto;
+            width: 280px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* SEO Dostu Gizleme */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .test-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .test-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .test-card:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .test-card h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .test-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .test-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .test-screen.active {
+            display: block;
+        }
+
+        .controls {
+            position: fixed;
+            /* Başlangıçta ortada ve altta */
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            
+            background: rgba(0,0,0,0.85); /* Biraz daha koyu arka plan */
+            padding: 12px 25px;
+            border-radius: 50px; /* Tam yuvarlak köşeler */
+            display: none;
+            gap: 15px;
+            align-items: center;
+            z-index: 1001;
+            
+            cursor: grab; /* Tutulabilir imleci */
+            user-select: none; /* Metin seçimini engelle */
+            touch-action: none; /* Tarayıcı kaydırmasını engelle */
+            
+            /* Sadece belirli özelliklerde transition olsun, hareket (left/top) anında olmalı */
+            transition: opacity 0.3s, transform 0.3s; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .controls.active {
+            display: flex;
+        }
+
+        /* Sürükleme esnasında */
+        .controls.dragging {
+            cursor: grabbing;
+            transition: none; /* Sürüklerken gecikmeyi (lag) yok et */
+            opacity: 0.9;
+            transform: scale(1.02); /* Hafifçe büyüt */
+        }
+
+        .control-btn {
+            background: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s, background 0.2s;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.05);
+            background: #f0f0f0;
+        }
+        
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .info {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+            
+            .main-logo {
+                width: 220px;
+            }
+
+            .lang-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .test-card {
+                padding: 20px;
+            }
+
+            .controls {
+                padding: 10px 20px;
+                bottom: 40px; /* Mobilde parmak erişimi için biraz daha yukarıda */
+                gap: 10px;
+            }
+
+            .control-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="dead-pixel-tester-logo-large.png" alt="Dead Pixel Tester Logo" class="main-logo">
+        
+        <h1 id="title" class="visually-hidden">Dead Pixel Tester</h1>
+        
+        <p class="subtitle" id="subtitle">Test your screen for dead or stuck pixels</p>
+        
+        <div class="lang-selector">
+            <button class="lang-btn active" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" onclick="setLang('de')">DE</button>
+            <button class="lang-btn" onclick="setLang('fr')">FR</button>
+            <button class="lang-btn" onclick="setLang('es')">ES</button>
+            <button class="lang-btn" onclick="setLang('tr')">TR</button>
+            <button class="lang-btn" onclick="setLang('ar')">AR</button>
+            <button class="lang-btn" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+        </div>
+
+        <div class="test-options">
+            <div class="test-card" onclick="startTest('monitor')">
+                <h3 id="monitorTitle">🖥️ Monitor Test</h3>
+                <p id="monitorDesc">For desktop and laptop screens. Full screen color test.</p>
+            </div>
+            <div class="test-card" onclick="startTest('mobile')">
+                <h3 id="mobileTitle">📱 Mobile Test</h3>
+                <p id="mobileDesc">Optimized for smartphones and tablets.</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+             <p>Designed by <a href="https://deadpixeltester.github.io/">deadpixeltester.github.io</a></p>
+        </div>
+    </div>
+
+    <div class="test-screen" id="testScreen"></div>
+
+    <div class="controls" id="controls">
+        <button class="control-btn" id="nextBtnEl" onclick="nextColor(event)">
+            <span id="nextBtn">Next</span>
+        </button>
+        <span class="info" id="colorInfo">Black</span>
+        <button class="control-btn" id="exitBtnEl" onclick="exitTest(event)">
+            <span id="exitBtn">Exit</span>
+        </button>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: 'Dead Pixel Tester',
+                subtitle: 'Test your screen for dead or stuck pixels',
+                monitorTitle: '🖥️ Monitor Test',
+                monitorDesc: 'For desktop and laptop screens. Full screen color test.',
+                mobileTitle: '📱 Mobile Test',
+                mobileDesc: 'Optimized for smartphones and tablets.',
+                nextBtn: 'Next',
+                exitBtn: 'Exit',
+                colors: ['Black', 'White', 'Red', 'Green', 'Blue', 'Yellow', 'Cyan', 'Magenta']
+            },
+            de: {
+                title: 'Tote Pixel Tester',
+                subtitle: 'Testen Sie Ihren Bildschirm auf tote oder hängende Pixel',
+                monitorTitle: '🖥️ Monitor Test',
+                monitorDesc: 'Für Desktop- und Laptop-Bildschirme. Vollbild-Farbtest.',
+                mobileTitle: '📱 Mobil Test',
+                mobileDesc: 'Optimiert für Smartphones und Tablets.',
+                nextBtn: 'Weiter',
+                exitBtn: 'Beenden',
+                colors: ['Schwarz', 'Weiß', 'Rot', 'Grün', 'Blau', 'Gelb', 'Cyan', 'Magenta']
+            },
+            fr: {
+                title: 'Testeur de Pixels Morts',
+                subtitle: 'Testez votre écran pour les pixels morts ou bloqués',
+                monitorTitle: '🖥️ Test Moniteur',
+                monitorDesc: 'Pour les écrans de bureau et portables. Test couleur plein écran.',
+                mobileTitle: '📱 Test Mobile',
+                mobileDesc: 'Optimisé pour smartphones et tablettes.',
+                nextBtn: 'Suivant',
+                exitBtn: 'Quitter',
+                colors: ['Noir', 'Blanc', 'Rouge', 'Vert', 'Bleu', 'Jaune', 'Cyan', 'Magenta']
+            },
+            es: {
+                title: 'Probador de Píxeles Muertos',
+                subtitle: 'Pruebe su pantalla para píxeles muertos o atascados',
+                monitorTitle: '🖥️ Prueba de Monitor',
+                monitorDesc: 'Para pantallas de escritorio y portátiles. Prueba de color a pantalla completa.',
+                mobileTitle: '📱 Prueba Móvil',
+                mobileDesc: 'Optimizado para teléfonos inteligentes y tabletas.',
+                nextBtn: 'Siguiente',
+                exitBtn: 'Salir',
+                colors: ['Negro', 'Blanco', 'Rojo', 'Verde', 'Azul', 'Amarillo', 'Cian', 'Magenta']
+            },
+            tr: {
+                title: 'Ölü Piksel Test Cihazı',
+                subtitle: 'Ekranınızı ölü veya takılı pikseller için test edin',
+                monitorTitle: '🖥️ Monitör Testi',
+                monitorDesc: 'Masaüstü ve dizüstü ekranlar için. Tam ekran renk testi.',
+                mobileTitle: '📱 Mobil Test',
+                mobileDesc: 'Akıllı telefonlar ve tabletler için optimize edilmiştir.',
+                nextBtn: 'İleri',
+                exitBtn: 'Çıkış',
+                colors: ['Siyah', 'Beyaz', 'Kırmızı', 'Yeşil', 'Mavi', 'Sarı', 'Cyan', 'Magenta']
+            },
+            ar: {
+                title: 'اختبار البكسل الميت',
+                subtitle: 'اختبر شاشتك بحثًا عن وحدات البكسل الميتة أو العالقة',
+                monitorTitle: '🖥️ اختبار الشاشة',
+                monitorDesc: 'لشاشات سطح المكتب والكمبيوتر المحمول. اختبار اللون بملء الشاشة.',
+                mobileTitle: '📱 اختبار الجوال',
+                mobileDesc: 'محسّن للهواتف الذكية والأجهزة اللوحية.',
+                nextBtn: 'التالي',
+                exitBtn: 'خروج',
+                colors: ['أسود', 'أبيض', 'أحمر', 'أخضر', 'أزرق', 'أصفر', 'سماوي', 'أرجواني']
+            },
+            zh: {
+                title: '坏点测试仪',
+                subtitle: '测试您的屏幕是否有坏点或卡点',
+                monitorTitle: '🖥️ 显示器测试',
+                monitorDesc: '适用于台式机和笔记本电脑屏幕。全屏颜色测试。',
+                mobileTitle: '📱 手机测试',
+                mobileDesc: '针对智能手机和平板电脑进行了优化。',
+                nextBtn: '下一个',
+                exitBtn: '退出',
+                colors: ['黑色', '白色', '红色', '绿色', '蓝色', '黄色', '青色', '品红']
+            },
+            ja: {
+                title: 'ドット抜けテスター',
+                subtitle: 'スクリーンのドット抜けやスタックピクセルをテストします',
+                monitorTitle: '🖥️ モニターテスト',
+                monitorDesc: 'デスクトップおよびラップトップ画面用。全画面カラーテスト。',
+                mobileTitle: '📱 モバイルテスト',
+                mobileDesc: 'スマートフォンとタブレット用に最適化。',
+                nextBtn: '次へ',
+                exitBtn: '終了',
+                colors: ['黒', '白', '赤', '緑', '青', '黄', 'シアン', 'マゼンタ']
+            }
+        };
+
+        const colors = ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF'];
+        let currentLang = 'en';
+        let currentColorIndex = 0;
+        let isTestActive = false;
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const t = translations[lang];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('monitorTitle').innerHTML = t.monitorTitle;
+            document.getElementById('monitorDesc').textContent = t.monitorDesc;
+            document.getElementById('mobileTitle').innerHTML = t.mobileTitle;
+            document.getElementById('mobileDesc').textContent = t.mobileDesc;
+            document.getElementById('nextBtn').textContent = t.nextBtn;
+            document.getElementById('exitBtn').textContent = t.exitBtn;
+            
+            if (isTestActive) {
+                document.getElementById('colorInfo').textContent = t.colors[currentColorIndex];
+            }
+
+            if (lang === 'ar') {
+                document.body.style.direction = 'rtl';
+            } else {
+                document.body.style.direction = 'ltr';
+            }
+        }
+
+        function startTest(type) {
+            isTestActive = true;
+            currentColorIndex = 0;
+            const testScreen = document.getElementById('testScreen');
+            const controls = document.getElementById('controls');
+            
+            testScreen.style.backgroundColor = colors[0];
+            testScreen.classList.add('active');
+            controls.classList.add('active');
+            
+            // Kontrolleri varsayılan konumuna (ortaya) getir
+            resetControlsPosition();
+            
+            document.getElementById('colorInfo').textContent = translations[currentLang].colors[0];
+            
+            if (type === 'monitor') {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(e => console.log(e));
+                }
+            }
+        }
+
+        function nextColor(e) {
+            // Sürükleme bittikten hemen sonra tıklamayı engellemek için kontrol
+            if (controls.classList.contains('dragging')) return;
+            if (e) e.stopPropagation();
+
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+            document.getElementById('testScreen').style.backgroundColor = colors[currentColorIndex];
+            document.getElementById('colorInfo').textContent = translations[currentLang].colors[currentColorIndex];
+        }
+
+        function exitTest(e) {
+            if (controls.classList.contains('dragging')) return;
+            if (e) e.stopPropagation();
+
+            isTestActive = false;
+            document.getElementById('testScreen').classList.remove('active');
+            document.getElementById('controls').classList.remove('active');
+            
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(e => console.log(e));
+            }
+        }
+
+        function resetControlsPosition() {
+            const controls = document.getElementById('controls');
+            // CSS'teki varsayılan değerlere döndür
+            controls.style.left = '50%';
+            controls.style.top = 'auto';
+            controls.style.bottom = '30px';
+            controls.style.transform = 'translateX(-50%)';
+        }
+
+        document.getElementById('testScreen').addEventListener('click', () => {
+             // Ekrana tıklayınca sonraki renge geç (kontrollere tıklanmadıysa)
+             nextColor();
+        });
+
+        // ---------------------------------------------------------
+        // Geliştirilmiş Sürükleme (Drag) Mantığı
+        // ---------------------------------------------------------
+        const controls = document.getElementById('controls');
+        let isDragging = false;
+        let dragStartX, dragStartY; // Fare/Parmak başlangıç noktası
+        let initialRectLeft, initialRectTop; // Elementin başlangıç noktası
+
+        // Sürüklemeyi Başlat
+        function dragStart(e) {
+            // Eğer butona tıklandıysa sürüklemeyi başlatma
+            if (e.target.closest('button')) return;
+
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+            isDragging = true;
+            controls.classList.add('dragging');
+
+            // 1. Elementin şu anki GÖRSEL pozisyonunu al
+            const rect = controls.getBoundingClientRect();
+            
+            // 2. CSS 'transform' ve 'bottom' özelliklerini devre dışı bırakıp
+            //    elementi tam olarak bulunduğu piksel koordinatlarına sabitle.
+            //    Bu, "sıçramayı" engeller.
+            controls.style.bottom = 'auto';
+            controls.style.transform = 'none'; 
+            controls.style.left = rect.left + 'px';
+            controls.style.top = rect.top + 'px';
+
+            // 3. Referans noktalarını kaydet
+            initialRectLeft = rect.left;
+            initialRectTop = rect.top;
+            dragStartX = clientX;
+            dragStartY = clientY;
+
+            // Olay dinleyicileri ekle
+            document.addEventListener('mousemove', dragMove);
+            document.addEventListener('touchmove', dragMove, { passive: false });
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('touchend', dragEnd);
+        }
+
+        // Sürükleme Hareketi
+        function dragMove(e) {
+            if (!isDragging) return;
+            e.preventDefault(); // Mobilde sayfa kaydırmayı engelle
+
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+            // Ne kadar hareket ettik?
+            const deltaX = clientX - dragStartX;
+            const deltaY = clientY - dragStartY;
+
+            // Yeni pozisyon
+            let newLeft = initialRectLeft + deltaX;
+            let newTop = initialRectTop + deltaY;
+
+            // SINIR KONTROLÜ (Boundary Check)
+            // Kutunun ekran dışına çıkmasını engelle
+            const rect = controls.getBoundingClientRect();
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+
+            // Yatay sınır (Sol ve Sağ)
+            if (newLeft < 0) newLeft = 0;
+            if (newLeft + rect.width > winWidth) newLeft = winWidth - rect.width;
+
+            // Dikey sınır (Üst ve Alt)
+            if (newTop < 0) newTop = 0;
+            if (newTop + rect.height > winHeight) newTop = winHeight - rect.height;
+
+            // Yeni pozisyonu uygula
+            controls.style.left = newLeft + 'px';
+            controls.style.top = newTop + 'px';
+        }
+
+        // Sürüklemeyi Bitir
+        function dragEnd() {
+            isDragging = false;
+            controls.classList.remove('dragging');
+
+            document.removeEventListener('mousemove', dragMove);
+            document.removeEventListener('touchmove', dragMove);
+            document.removeEventListener('mouseup', dragEnd);
+            document.removeEventListener('touchend', dragEnd);
+        }
+
+        controls.addEventListener('mousedown', dragStart);
+        controls.addEventListener('touchstart', dragStart, { passive: false });
+
+        // Klavye Kontrolleri
+        document.addEventListener('keydown', (e) => {
+            if (isTestActive) {
+                if (e.key === 'Escape') {
+                    exitTest();
+                } else if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowRight') {
+                    nextColor();
+                } else if (e.key === 'ArrowLeft') {
+                    // İsterseniz geri gelme özelliği de eklenebilir
+                    // prevColor(); 
+                }
+            }
+        });
+    </script>
+</body>
+</html>
