@@ -1120,10 +1120,14 @@
             }
         });
 
-        // Sayfa Yüklendiğinde
-        window.addEventListener('DOMContentLoaded', () => {
+        // Sayfa Yüklendiğinde (DOMContentLoaded yarış durumunu önler)
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', () => {
+                setLang('en');
+            });
+        } else {
             setLang('en');
-        });
+        }
     </script>
 
     <!-- Default Statcounter code for
