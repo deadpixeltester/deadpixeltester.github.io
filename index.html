@@ -966,6 +966,10 @@
             testScreen.classList.add('active');
             controls.classList.add('active');
             
+            // Ekran test edilirken kaydırma çubuğu çıkmasını engeller
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            
             applyTestPattern(0);
             resetControlsPosition();
             
@@ -1052,6 +1056,10 @@
             isTestActive = false;
             document.getElementById('testScreen').classList.remove('active');
             document.getElementById('controls').classList.remove('active');
+            
+            // Kaydırma çubuklarını geri getir
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
             
             if (document.exitFullscreen) {
                 document.exitFullscreen().catch(e => console.log(e));
@@ -1162,6 +1170,13 @@
                         jumpToColor(idx);
                     }
                 }
+            }
+        });
+
+        // Tarayıcı tam ekran durumunu takip et ve tam ekrandan çıkınca testi bitir
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && isTestActive) {
+                exitTest();
             }
         });
 
