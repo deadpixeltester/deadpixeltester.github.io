@@ -123,10 +123,9 @@
 
         /* Dil Seçici */
         .lang-selector {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
             margin-bottom: 30px;
             background: rgba(0, 0, 0, 0.2);
             padding: 8px;
@@ -135,7 +134,7 @@
         }
 
         .lang-btn {
-            padding: 6px 14px;
+            padding: 6px 4px;
             border: 1px solid transparent;
             background: transparent;
             color: var(--text-muted);
@@ -144,6 +143,7 @@
             font-size: 13px;
             font-weight: 600;
             transition: all 0.25s ease;
+            text-align: center;
         }
 
         .lang-btn:hover {
@@ -474,6 +474,11 @@
 
             .logo-container {
                 width: 250px;
+            }
+
+            .lang-btn {
+                font-size: 11px;
+                padding: 6px 2px;
             }
 
             .test-options {
