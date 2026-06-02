@@ -11,7 +11,7 @@
     <link rel="canonical" href="https://deadpixeltester.github.io/">
 
     <!-- Güvenlik Politikası Meta Başlığı (CSP) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.statcounter.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://c.statcounter.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://c.statcounter.com; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.statcounter.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://c.statcounter.com; connect-src 'self' https://c.statcounter.com; base-uri 'self'; form-action 'self';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <link rel="icon" type="image/png" href="favicon.png">
@@ -534,6 +534,7 @@
             <button class="lang-btn" onclick="setLang('fr')">FR</button>
             <button class="lang-btn" onclick="setLang('es')">ES</button>
             <button class="lang-btn" onclick="setLang('tr')">TR</button>
+            <button class="lang-btn" onclick="setLang('ru')">RU</button>
             <button class="lang-btn" onclick="setLang('ar')">AR</button>
             <button class="lang-btn" onclick="setLang('zh')">中文</button>
             <button class="lang-btn" onclick="setLang('ja')">日本語</button>
@@ -795,6 +796,29 @@
                 colors: [
                     '黒', '白', '赤', '緑', '青', '黄', 'シアン', 'マゼンタ',
                     'RGBグラデーション', 'グレースケールグラデーション', 'チェッカーボード', '垂直線', 'バックライト漏れ'
+                ]
+            },
+            ru: {
+                title: 'Тест на битые пиксели',
+                subtitle: 'Бесплатный онлайн-тест экрана монитора и мобильного телефона',
+                monitorTitle: '🖥️ Тест монитора',
+                monitorDesc: 'Запустить полноэкранный тест. Подходит для мониторов ПК и ноутбуков.',
+                mobileTitle: '📱 Мобильный тест',
+                mobileDesc: 'Запустить тест, оптимизированный под сенсорные экраны. Для смартфонов и планшетов.',
+                nextBtn: 'След',
+                prevBtn: 'Пред',
+                exitBtn: 'Выход',
+                instructionsTitle: 'Как проверить экран на битые пиксели',
+                instStep1: 'Нажмите <strong>Тест монитора</strong> или <strong>Мобильный тест</strong> для запуска.',
+                instStep2: 'Перейдите в полноэкранный режим и внимательно осмотрите дисплей на каждом шаблоне.',
+                instStep3: 'Нажимайте на экран, используйте всплывающее меню управления или клавиши <strong>Пробел / Стрелки</strong> для смены цвета.',
+                instStep4: 'Ищите точки черного, белого цвета или застрявшие на одном цвете (дефектные пиксели).',
+                tipsTitle: 'Битые и застрявшие пиксели',
+                tipDead: '<strong>Битый пиксель:</strong> Остается полностью черным на всех цветах (или белым на некоторых ЖК-панелях). Субпиксели полностью отключены.',
+                tipStuck: '<strong>Застрявший пиксель:</strong> Постоянно горит одним цветом (обычно красным, зеленым или синим). Иногда его можно исправить.',
+                colors: [
+                    'Черный', 'Белый', 'Красный', 'Зеленый', 'Синий', 'Желтый', 'Циан', 'Пурпурный',
+                    'RGB градиент', 'Серый градиент', 'Шахматная сетка', 'Вертикальные линии', 'Проверка подсветки'
                 ]
             }
         };

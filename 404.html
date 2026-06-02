@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Dead Pixel Tester</title>
+    <meta name="description" content="The page you are looking for does not exist. Return to Dead Pixel Tester to test your monitor, laptop, or mobile screen.">
+    <meta name="robots" content="noindex, follow">
+    
+    <!-- Güvenlik Politikası Meta Başlığı (CSP) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'self';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="logo-512.png">
+    
+    <!-- Google Fonts Optimize Yükleme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #818cf8;
+            --primary-hover: #6366f1;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        /* Vektörel SVG Logo */
+        .logo-container {
+            max-width: 100%;
+            width: 320px;
+            margin: 0 auto 1.5rem;
+            display: block;
+        }
+        
+        .logo-svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .error-code {
+            font-size: 96px;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            filter: drop-shadow(0 0 20px rgba(129, 140, 248, 0.3));
+        }
+
+        h1 {
+            font-size: 28px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* Dil Seçici */
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.25s ease;
+        }
+
+        .lang-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #0f172a;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
+        }
+
+        /* İnteraktif Piksel Monitör Mockup */
+        .pixel-screen {
+            width: 240px;
+            height: 135px;
+            background: #05050a;
+            border: 6px solid #334155;
+            border-radius: 12px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(129, 140, 248, 0.15);
+        }
+
+        .pixel-screen-stand {
+            width: 50px;
+            height: 16px;
+            background: #334155;
+            margin: -2px auto 25px;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            grid-template-rows: repeat(13, 1fr);
+            width: 100%;
+            height: 100%;
+        }
+
+        .pixel {
+            background: #0c0f1d;
+            border: 0.5px solid rgba(255, 255, 255, 0.02);
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .pixel.stuck {
+            background: #ef4444; /* Sıkışmış kırmızı piksel */
+            box-shadow: 0 0 8px #ef4444, 0 0 15px #ef4444;
+            cursor: pointer;
+            animation: blink 0.8s infinite alternate;
+            z-index: 5;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .pixel.fixed {
+            background: #10b981 !important; /* Düzeltilince geçici yeşil yanıp söner */
+            box-shadow: 0 0 12px #10b981, 0 0 20px #10b981 !important;
+            animation: pulse-green 1s ease-out forwards !important;
+        }
+
+        @keyframes pulse-green {
+            0% { background: #10b981; }
+            80% { background: #10b981; opacity: 1; }
+            100% { background: #0c0f1d; box-shadow: none; }
+        }
+
+        .pixel-game-hint {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-style: italic;
+            min-height: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .pixel-game-hint.success {
+            color: #10b981;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /* Ana Buton */
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: #0f172a;
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px rgba(129, 140, 248, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-home:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(129, 140, 248, 0.4);
+        }
+
+        .btn-home:active {
+            transform: translateY(0);
+        }
+
+        .btn-home svg {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-home:hover svg {
+            transform: translateX(-4px);
+        }
+
+        /* Telif ve Footer */
+        .copyright {
+            text-align: center;
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .copyright a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobil Uyum */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .logo-container {
+                width: 250px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .error-code {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Vektörel Inline SVG Logo (index.html ile birebir aynı) -->
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none;">
+                <svg class="logo-svg" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" aria-label="Dead Pixel Tester Logo">
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#818cf8" />
+                            <stop offset="100%" stop-color="#c084fc" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="20" y="15" width="56" height="38" rx="4" fill="none" stroke="url(#logo-grad)" stroke-width="4" />
+                    <line x1="15" y1="57" x2="81" y2="57" stroke="url(#logo-grad)" stroke-width="4" stroke-linecap="round" />
+                    <rect x="25" y="20" width="46" height="28" rx="2" fill="#0f172a" />
+                    <rect x="44" y="30" width="8" height="8" rx="1" fill="#f43f5e" />
+                    
+                    <text x="96" y="44" font-family="'Inter', sans-serif" font-weight="900" font-size="28" fill="#ffffff" letter-spacing="0.5">DEAD PIXEL</text>
+                    <text x="96" y="65" font-family="'Inter', sans-serif" font-weight="600" font-size="14" fill="#a5b4fc" letter-spacing="4">TESTER</text>
+                </svg>
+            </a>
+        </div>
+        
+        <div class="error-code" id="errorCodeEl">404</div>
+        <h1 id="headingEl">Page Not Found</h1>
+        <p class="subtitle" id="subtitleEl">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        
+        <!-- Dil Seçici -->
+        <div class="lang-selector" role="group" aria-label="Language Selector">
+            <button class="lang-btn active" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" onclick="setLang('de')">DE</button>
+            <button class="lang-btn" onclick="setLang('fr')">FR</button>
+            <button class="lang-btn" onclick="setLang('es')">ES</button>
+            <button class="lang-btn" onclick="setLang('tr')">TR</button>
+            <button class="lang-btn" onclick="setLang('ru')">RU</button>
+            <button class="lang-btn" onclick="setLang('ar')">AR</button>
+            <button class="lang-btn" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+        </div>
+
+        <!-- İnteraktif Piksel Monitör -->
+        <div class="pixel-screen">
+            <div class="pixel-grid" id="pixelGrid"></div>
+        </div>
+        <div class="pixel-screen-stand"></div>
+        <p class="pixel-game-hint" id="gameHintEl">Find and click the stuck pixel to 'fix' it!</p>
+
+        <!-- Ana Sayfaya Dön Butonu -->
+        <a href="index.html" class="btn-home" id="btnHomeEl">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span id="btnHomeTextEl">Back to Tester</span>
+        </a>
+
+        <div class="copyright">
+             <p>Designed by <a href="https://deadpixeltester.github.io/">deadpixeltester.github.io</a></p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                title: '404 - Page Not Found | Dead Pixel Tester',
+                heading: 'Page Not Found',
+                subtitle: 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
+                gameHint: "Find and click the stuck pixel to 'fix' it!",
+                gameSuccess: "✨ Stuck pixel fixed! Try testing your entire screen.",
+                btnHome: 'Back to Tester'
+            },
+            de: {
+                title: '404 - Seite nicht gefunden | Dead Pixel Tester',
+                heading: 'Seite nicht gefunden',
+                subtitle: 'Die gesuchte Seite wurde möglicherweise entfernt, umbenannt oder ist vorübergehend nicht verfügbar.',
+                gameHint: "Finden und klicken Sie auf das hängende Pixel, um es zu 'beheben'!",
+                gameSuccess: "✨ Hängendes Pixel behoben! Testen Sie Ihren gesamten Bildschirm.",
+                btnHome: 'Zurück zum Tester'
+            },
+            fr: {
+                title: '404 - Page Non Trouvée | Dead Pixel Tester',
+                heading: 'Page Non Trouvée',
+                subtitle: 'La page que vous recherchez a peut-être été supprimée, son nom a changé ou elle est temporairement indisponible.',
+                gameHint: "Trouvez et cliquez sur le pixel bloqué pour le 'réparer' !",
+                gameSuccess: "✨ Pixel bloqué réparé ! Essayez de tester tout votre écran.",
+                btnHome: 'Retour au Testeur'
+            },
+            es: {
+                title: '404 - Página no encontrada | Dead Pixel Tester',
+                heading: 'Página no encontrada',
+                subtitle: 'Es posible que la página que busca haya sido eliminada, haya cambiado de nombre o no esté disponible temporalmente.',
+                gameHint: "¡Encuentra y haz clic en el píxel atascado para 'solucionarlo'!",
+                gameSuccess: "✨ ¡Píxel atascado solucionado! Intente probar toda su pantalla.",
+                btnHome: 'Volver al Probador'
+            },
+            tr: {
+                title: '404 - Sayfa Bulunamadı | Dead Pixel Tester',
+                heading: 'Sayfa Bulunamadı',
+                subtitle: 'Aradığınız sayfa kaldırılmış, ismi değiştirilmiş veya geçici olarak ulaşılamıyor olabilir.',
+                gameHint: "Sıkışmış pikseli bulun ve tıklayarak 'düzeltin'!",
+                gameSuccess: "✨ Sıkışmış piksel düzeltildi! Tüm ekranınızı test etmeyi deneyin.",
+                btnHome: 'Test Cihazına Dön'
+            },
+            ar: {
+                title: '404 - الصفحة غير موجودة | Dead Pixel Tester',
+                heading: 'الصفحة غير موجودة',
+                subtitle: 'قد تكون الصفحة التي تبحث عنها قد تمت إزالتها أو تغيير اسمها أو أنها غير متاحة مؤقتًا.',
+                gameHint: "ابحث عن البكسل العالق وانقر عليه 'لإصلاحه'!",
+                gameSuccess: "✨ تم إصلاح البكسل العالق! جرب اختبار شاشتك بالكامل.",
+                btnHome: 'العودة إلى الاختبار'
+            },
+            zh: {
+                title: '404 - 未找到页面 | Dead Pixel Tester',
+                heading: '未找到页面',
+                subtitle: '您寻找的页面可能已被删除、更名或暂时不可用。',
+                gameHint: "寻找并点击亮点（卡点）来'修复'它！",
+                gameSuccess: "✨ 亮点修复成功！尝试测试您的整个屏幕。",
+                btnHome: '返回测试仪'
+            },
+            ja: {
+                title: '404 - ページが見つかりません | Dead Pixel Tester',
+                heading: 'ページが見つかりません',
+                subtitle: 'お探しのページは削除されたか、名前が変更されたか、または一時的に利用できない可能性があります。',
+                gameHint: "スタックピクセルを見つけてクリックし、'修復'してください！",
+                gameSuccess: "✨ スタックピクセルが修復されました！画面全体のテストをお試しください。",
+                btnHome: 'テスターに戻る'
+            },
+            ru: {
+                title: '404 - Страница не найдена | Dead Pixel Tester',
+                heading: 'Страница не найдена',
+                subtitle: 'Возможно, запрашиваемая страница была удалена, переименована или временно недоступна.',
+                gameHint: "Найдите и кликните по застрявшему пикселю, чтобы 'исправить' его!",
+                gameSuccess: "✨ Застрявший пиксель исправлен! Попробуйте протестировать весь экран.",
+                btnHome: 'Вернуться к тесту'
+            }
+        };
+
+        let currentLang = 'en';
+        let pixelFixed = false;
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.textContent.toLowerCase() === lang || 
+                   (lang === 'zh' && btn.textContent === '中文') ||
+                   (lang === 'ja' && btn.textContent === '日本語')) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            const t = translations[lang];
+            document.title = t.title;
+            document.getElementById('headingEl').textContent = t.heading;
+            document.getElementById('subtitleEl').textContent = t.subtitle;
+            document.getElementById('btnHomeTextEl').textContent = t.btnHome;
+            
+            const hintEl = document.getElementById('gameHintEl');
+            if (pixelFixed) {
+                hintEl.textContent = t.gameSuccess;
+            } else {
+                hintEl.textContent = t.gameHint;
+            }
+
+            if (lang === 'ar') {
+                document.body.style.direction = 'rtl';
+            } else {
+                document.body.style.direction = 'ltr';
+            }
+        }
+
+        // Piksel Izgarası Oluşturma
+        function generatePixelGrid() {
+            const grid = document.getElementById('pixelGrid');
+            grid.innerHTML = '';
+            
+            const totalPixels = 24 * 13;
+            // Rastgele bir konum seç (kenarlara çok yakın olmasın)
+            const stuckIndex = Math.floor(Math.random() * (totalPixels - 48)) + 24; 
+            
+            const colors = ['#ef4444', '#10b981', '#3b82f6', '#eab308']; // Sıkışmış piksel renkleri (Kırmızı, Yeşil, Mavi, Sarı)
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            for (let i = 0; i < totalPixels; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'pixel';
+                
+                if (i === stuckIndex) {
+                    pixel.classList.add('stuck');
+                    pixel.style.backgroundColor = randomColor;
+                    pixel.style.boxShadow = `0 0 10px ${randomColor}, 0 0 18px ${randomColor}`;
+                    
+                    pixel.addEventListener('click', function() {
+                        if (pixelFixed) return;
+                        pixelFixed = true;
+                        
+                        pixel.classList.remove('stuck');
+                        pixel.classList.add('fixed');
+                        
+                        const hintEl = document.getElementById('gameHintEl');
+                        hintEl.textContent = translations[currentLang].gameSuccess;
+                        hintEl.classList.add('success');
+                    });
+                }
+                
+                grid.appendChild(pixel);
+            }
+        }
+
+        // Dil algılama ve başlatma
+        document.addEventListener('DOMContentLoaded', () => {
+            generatePixelGrid();
+            
+            // Tarayıcı diline göre varsayılan dil belirle
+            const userLang = navigator.language || navigator.userLanguage;
+            const shortLang = userLang.split('-')[0];
+            if (translations[shortLang]) {
+                setLang(shortLang);
+            } else {
+                setLang('en');
+            }
+        });
+    </script>
+</body>
+</html>
